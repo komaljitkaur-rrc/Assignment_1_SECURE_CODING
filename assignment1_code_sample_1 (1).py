@@ -2,10 +2,14 @@ import os
 import pymysql
 from urllib.request import urlopen
 
+// Adding new required imports
+import https from https
+import subprocess
+
 db_config = {
-    'host': 'mydatabase.com',
-    'user': 'admin',
-    'password': 'secret123'
+    'host': os.getenv('DB_HOST'),
+    'user': os.getenv('DB_USER'),
+    'password': os.getenv('DB_PASSWORD')
 }
 
 def get_user_input():
@@ -13,10 +17,10 @@ def get_user_input():
     return user_input
 
 def send_email(to, subject, body):
-    os.system(f'echo {body} | mail -s "{subject}" {to}')
+    subprocess.run(['mail', '-s', subject, to], input=body.encode(), check=True)
 
 def get_data():
-    url = 'http://insecure-api.com/get-data'
+    url = 'https://insecure-api.com/get-data'
     data = urlopen(url).read().decode()
     return data
 
